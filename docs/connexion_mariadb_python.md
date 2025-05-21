@@ -7,7 +7,7 @@ Ce guide explique comment établir une connexion entre un script Python et une b
 
 ## 🔧 Prérequis
 
-- Python 3.x installé
+- Python 3.12 installé
 - Accès à une base de données MariaDB (locale ou distante)
 - Un utilisateur et mot de passe MariaDB valides
 - Accès à Internet (pour installer les bibliothèques Python)
@@ -21,89 +21,43 @@ Il existe plusieurs connecteurs compatibles. Le plus simple est `mysql-connector
 ```bash
 pip install mysql-connector-python
 ```
-
-Ou, en alternative :
-
-```bash
-pip install pymysql
-```
-
 ---
 
 ## 🧪 Exemple avec `mysql-connector-python`
 
 ```python
+import mariadb
 import mysql.connector
 from mysql.connector import Error
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def check_db_connection():
+    try:
+        conn = mysql.connector.connect(
+            host=os.getenv('DB_HOST'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            database=os.getenv('DB_DATABASE')
+        )
+        if conn.is_connected():
+            conn.close()
+            return True
+        else:
+            return False
+    except Error:
+        return False
+
 
 try:
-    connection = mysql.connector.connect(
-        host='localhost',
-        user='votre_utilisateur',
-        password='votre_mot_de_passe',
-        database='nom_de_votre_base'
-    )
-
-    if connection.is_connected():
-        print("✅ Connexion réussie à la base MariaDB")
-        print("Yes")
-
-except Error as e:
-    print(f"❌ Erreur de connexion : {e}")
-
-finally:
-    if 'connection' in locals() and connection.is_connected():
-        connection.close()
+    conn = mariadb.connect(**db_config)
+    conn.ping()
+    print("yes")
+    conn.close()
+except mariadb.Error as err:
+    print(f"Erreur lors de la connexion à MariaDB : {err}")
 ```
-
----
-
-## 💡 Exemple avec `pymysql`
-
-```python
-import pymysql
-
-try:
-    connection = pymysql.connect(
-        host='localhost',
-        user='votre_utilisateur',
-        password='votre_mot_de_passe',
-        database='nom_de_votre_base'
-    )
-    print("✅ Connexion réussie à la base MariaDB")
-    print("Yes")
-
-except pymysql.MySQLError as e:
-    print(f"❌ Erreur de connexion : {e}")
-
-finally:
-    if 'connection' in locals():
-        connection.close()
-```
-
----
-
-## 🛠 Options supplémentaires
-
-- **Changer de port** si MariaDB écoute ailleurs que sur 3306 :
-
-```python
-port=3307
-```
-
-- **Connexion distante** :
-  - Assurez-vous que le pare-feu autorise le port 3306
-  - MariaDB doit être configuré pour écouter sur `0.0.0.0` ou l'adresse du serveur
-
-- **Lister les bases** après connexion :
-
-```python
-cursor = connection.cursor()
-cursor.execute("SHOW DATABASES;")
-for db in cursor.fetchall():
-    print(db)
-```
-
 ---
 
 ## 🔐 Bonnes pratiques
