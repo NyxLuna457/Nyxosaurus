@@ -1,13 +1,12 @@
-# Déploiement d’un projet Python avec MariaDB, GitHub et gestion sécurisée des identifiants
+# Connecter une BD à une application Python
 
 ## Sommaire
 
 1. [Installation de MariaDB sur Ubuntu Server](#1-installation-de-mariadb-sur-ubuntu-server)
 2. [Gestion sécurisée des identifiants avec un fichier `.env`](#2-gestion-sécurisée-des-identifiants-avec-un-fichier-env)
-3. [Versionner et déployer avec Git/GitHub](#3-versionner-et-déployer-avec-gitgithub)
-4. [Bonnes pratiques supplémentaires](#4-bonnes-pratiques-supplémentaires)
-5. [Exemple d’arborescence de projet](#5-exemple-darborescence-de-projet)
-6. [Exemple de connexion à MariaDB en Python](#6-exemple-de-connexion-à-mariadb-en-python)
+3. [Bonnes pratiques supplémentaires](#3-bonnes-pratiques-supplémentaires)
+4. [Exemple d’arborescence de projet](#4-exemple-darborescence-de-projet)
+5. [Connexion à MariaDB en Python](#5-Connexion-à-mariadb-en-python)
 
 ---
 
@@ -40,8 +39,8 @@ Réponds aux questions pour :
 - Supprimer la base de test
 - Recharger les tables de privilèges
 
-Il est recommandé de répondre **Y** à toutes les questions pour une configuration sécurisée.
-
+:::danger[Il est recommandé de répondre "**Y**" à toutes les questions pour une configuration sécurisée.]
+:::
 ---
 
 ### Création d’une base de données et d’un utilisateur
@@ -97,32 +96,83 @@ DB_USER=mon_utilisateur
 DB_PASSWORD=mon_mot_de_passe
 DB_NAME=ma_base
 ```
+Remplis avec les infos correspondantes à l'étape précédente
 
 ### b. Ignorer le fichier `.env` dans Git
 
 Créer un fichier `.gitignore` dans la racine de ton dossier   
-Ajoute `.env` à ton fichier `.gitignore` (il s'agit juste d'écrire `.env` dans le fichier `.gitignore`et de le sauvegarder. Github se chargera d'interpréter le .gitignore tout seul)  
+Ajoute `.env` à ton fichier `.gitignore` (il s'agit juste d'écrire `.env` dans le fichier `.gitignore`et de le sauvegarder. Github se chargera d'interpréter le `.gitignore` tout seul)  
 
+### c. Pousser le code (hors `.env`)
 
-### c. Charger le `.env` dans ton code Python
-
-Installe la librairie python-dotenv :
+```bash
+git add .
+git commit -m "nomducommit"
+git push
 ```
-pip install python-dotenv
+---
+
+## 3. Bonnes pratiques supplémentaires
+
+- **Fournir un fichier `.env.example`** dans ton dépôt (structure sans valeurs sensibles) :
+
+    ```
+    DB_HOST=
+    DB_USER=
+    DB_PASSWORD=
+    DB_NAME=
+    ```
+
+- **Ne jamais pousser `.env`** ou toute information sensible sur GitHub.
+- **Séparer tes environnements** (développement, production) avec différents fichiers `.env` si besoin.
+
+---
+
+## 4. Exemple d’arborescence de projet
+
+```
+mon_projet/
+├── app.py
+├── .env # Ignoré par git, contient les identifiants réels
+├── .env.example # Version sans secrets à partager
+├── .gitignore
+├── requirements.txt
+└── ...
 ```
 
-Dans ton script Python (exemple : `app.py`), ajoute :
+---
+
+## 5. Connexion à MariaDB en Python
+
+Installe le connecteur si besoin :
+```
+pip install mysql-connector-python python-dotenv
+```
+
+Intégrer à l'app python :
 
 ```python
 import os
 from dotenv import load_dotenv
+import mysql.connector
 
-load_dotenv() # charge le fichier .env
+load_dotenv()
 
-db_host = os.getenv("DB_HOST")
-db_user = os.getenv("DB_USER")
-db_password = os.getenv("DB_PASSWORD")
-db_name = os.getenv("DB_NAME")
+try:
+    connection = mysql.connector.connect(
+        host=os.getenv('DB_HOST'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD'),
+        database=os.getenv('DB_NAME')
+    )
+    if connection.is_connected():
+        print("✅ Connexion réussie à MariaDB")
+except mysql.connector.Error as e:
+    print(f"❌ Erreur de connexion : {e}")
+finally:
+    if 'connection' in locals() and connection.is_connected():
+        connection.close()
+
 ```
 :::danger[Faire Attention]
 
@@ -130,12 +180,10 @@ En bonne pratique de scripting, faite attention à rajouter les imports en haut 
     app.run(host='0.0.0.0', port=5000, debug=True))`
 :::
 
-### Pousser le code (hors `.env`)
+:::tip[Comprendre le script]
 
-```bash
-git add .
-git commit -m "nomducommit"
-git push
-
+Ici le script extrait les données du fichier .env et s'en sert pour se connecter à la base mariadb.  
+Ensuite selon la réussite ou l'échec de la connection, le script print le message correspondant  
+Finalement, le script ferme la connexion à la base de donnée.
 
 
