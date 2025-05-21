@@ -1,23 +1,18 @@
-Créer VM ubuntu server
-installer sudo, puis ajouter le user dans sudo avec “adduser user sudo” en remplaçant “user” avec votre nom d’utilisateur
-installer ssh-server afin d’administrer la VM depuis le terminal de l’ordinateur
-Installer nginx
-installer mariadb
-installer python 3.12
-installer php
-installer flask (pip install flask) (micro framework)
+## Créer VM ubuntu server
+- apt install sudo, puis ajouter l'utilisateur dans le groupe sudo avec “adduser user sudo” en remplaçant “user” avec votre nom d’utilisateur
+- apt install openssh-server (afin d’administrer la VM depuis le terminal du poste local)
+- apt install nginx
+- apt install python3.12
+- apt install php
+- apt install flask (pip install flask) (micro framework)
 
-
-Créer un dossier “test” (mkdir test)(cd test)
-Créer un fichier app.py : 
-from flask import Flask
-
-
-##Utilisation de VS code :  
+## Utilisation de VS code :  
 >- En local   
     - Sudo apt install python3-pip  
     - Pip install Flask  
-    - mkdir Documents/projet-python  
+    - mkdir Documents/projet-python
+    - cd Documents/projet-python
+    - code .  (marche uniquement si VS code est déjà installé)  
     - nano app.py 
 
 ```python
@@ -31,8 +26,7 @@ def home ():
         return file.read()
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    app.run(host=’0.0.0.0, port=5000, debug=true)
+    app.run(host=’0.0.0.0', port=5000, debug=True)
 ```
 Mkdir templates  
 cd templates
@@ -52,19 +46,20 @@ nano index.html :
 ```
 > - Run python app.py dans ./test  
     - Vérifier que ca run sur le port 5000 ( 127.0.0.1:5000 dans l’url web)
+    - Une page en HTML avec ce que vous avez rentré dans le fichier "index" devrait s'afficher
 
 
-##Utilisation de github pour versionner et pouvoir transférer les fichiers vers la VM :
+## Utilisation de github pour versionner et pouvoir transférer les fichiers vers la VM :
 
 > - En local :   
      - sudo apt install git  
-     - Dans le répértoire contentant les fichiers   
+     - Dans le répertoire contenant les fichiers   
      - - git init  
-     - - git add . ( sert à envoyer l'ensemble des fichiers présents dans le répértoire dans un cache en attendant le commit)
+     - - git add . ( sert à envoyer l'ensemble des fichiers présents dans le répertoire dans un cache en attendant le commit)  
      - - git commit -m "Premier commit"
 
 > - Sur [Github](https://github.com)  
-    - Créer un compte si nécéssaire  
+    - Créer un compte si nécessaire  
     - Clique sur "New Repository"  
     - Donne lui un nom, laisse le dépôt vide et ne coche pas READ ni .gitignore etc...   
     - Récupère l'URL SSH de ton dépôt (Doit ressembler à git@github.com:utilisateur/nom-du-repo.git)  
@@ -74,4 +69,8 @@ nano index.html :
     - git branch -M main
     - git push -u origin main
 
-Félicitations, tu viens de pousser ton projet sur github ! Le fichier app.py et le dossier avec le fichier index.html devraient se retrouver dans ton repository
+## Félicitations, tu viens de pousser ton projet sur github !  
+
+ - Le fichier app.py et le dossier avec le fichier index.html devraient se retrouver dans ton repository.   
+ - Vérifie tout de même que tout fonctionne avec un "python app.py" et en tapant l'adresse ip de ta vm:5000 dans ton navigateur.   
+ - Si la page ne s'affiche pas, vérifie les paramètres réseau de ta VM   
