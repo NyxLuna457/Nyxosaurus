@@ -6,7 +6,7 @@
 2. [Gestion sécurisée des identifiants avec un fichier `.env`](#2-gestion-sécurisée-des-identifiants-avec-un-fichier-env)
 3. [Bonnes pratiques supplémentaires](#3-bonnes-pratiques-supplémentaires)
 4. [Exemple d’arborescence de projet](#4-exemple-darborescence-de-projet)
-5. [Connexion à MariaDB en Python](#5-Connexion-à-mariadb-en-python)
+5. [Connexion à MariaDB en Python](#5-connexion-à-mariadb-en-python)
 
 ---
 
@@ -176,7 +176,7 @@ finally:
 ```
 :::danger[Faire Attention]
 
-En bonne pratique de scripting, faite attention à rajouter les imports en haut du script et le restant AVANT la ligne de fin de script python (qui doit ressembler à ça `if __name__ == '__main__':
+En bonne pratique de scripting, faite attention à rajouter les `imports` en haut du script et le restant AVANT la ligne de fin de script python (qui doit ressembler à ça `if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True))`
 :::
 
@@ -185,5 +185,5 @@ En bonne pratique de scripting, faite attention à rajouter les imports en haut 
 Ici le script extrait les données du fichier .env et s'en sert pour se connecter à la base mariadb.  
 Ensuite selon la réussite ou l'échec de la connection, le script print le message correspondant  
 Finalement, le script ferme la connexion à la base de donnée.
-
+:::
 
