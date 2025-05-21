@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_tutorial_wiki=self.webpackChunkmy_tutorial_wiki||[]).push([[8261],{51:t=>{t.exports=JSON.parse('{"metadata":{"permalink":"/Nyxosaurus/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
