@@ -1,7 +1,7 @@
 ## Créer VM ubuntu server
 - apt install sudo, puis ajouter l'utilisateur dans le groupe sudo avec “adduser user sudo” en remplaçant “user” avec votre nom d’utilisateur
 - apt install openssh-server (afin d’administrer la VM depuis le terminal du poste local)
-- apt install nginx
+- apt install nginx (mini framework web/reverse proxy)
 - apt install python3.12
 - apt install php
 - apt install flask (pip install flask) (micro framework)
@@ -52,11 +52,11 @@ nano index.html :
 ## Utilisation de github pour versionner et pouvoir transférer les fichiers vers la VM :
 
 > - En local :   
-     - sudo apt install git  
-     - Dans le répertoire contenant les fichiers   
-     - - git init  
-     - - git add . ( sert à envoyer l'ensemble des fichiers présents dans le répertoire dans un cache en attendant le commit)  
-     - - git commit -m "Premier commit"
+- sudo apt install git  
+- Dans le répertoire contenant les fichiers   
+     - git init  
+     - git add . ( sert à envoyer l'ensemble des fichiers présents dans le répertoire dans un cache en attendant le commit)  
+     - git commit -m "Premier commit"
 
 > - Sur [Github](https://github.com)  
     - Créer un compte si nécessaire  

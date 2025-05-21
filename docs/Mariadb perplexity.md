@@ -52,5 +52,31 @@ Installe la librairie python-dotenv :
 pip install python-dotenv
 ```
 
+Dans ton script Python (exemple : `app.py`), ajoute :
+
+```python
+import os
+from dotenv import load_dotenv
+
+load_dotenv() # charge le fichier .env
+
+db_host = os.getenv("DB_HOST")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+db_name = os.getenv("DB_NAME")
+```
+:::danger[Faire Attention]
+
+En bonne pratique de scripting, faite attention à rajouter les imports en haut du script and le restant AVANT la ligne de fin de script python (qui doit ressembler à ça `if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True))`
+:::
+
+### Pousser le code (hors `.env`)
+
+```bash
+git add .
+git commit -m "nomducommit"
+git push
+
 
 
