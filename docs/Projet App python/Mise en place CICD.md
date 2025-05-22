@@ -1,8 +1,5 @@
 # Mise en place d'une démarche CI/CD
 
-
-# Tutoriel : Déploiement CI/CD automatisé via Tailscale et GitHub Actions avec un fichier `.yml`
-
 Ce guide explique comment mettre en place un déploiement continu (CI/CD) sur ta VM Ubuntu hébergeant l’application Python, en utilisant **Tailscale** pour un accès réseau privé et sécurisé, et un workflow GitHub Actions défini dans un fichier `.yml` pour automatiser le déploiement à chaque `git push`.
 
 ---
