@@ -1,7 +1,5 @@
 # Monitoring via Grafana/Prometheus
 
-# Tutoriel : Monitoring d’une VM Ubuntu (App + MariaDB) avec une VM Debian (Grafana + Prometheus)
-
 Ce guide détaille comment monitorer :
 - Une VM Ubuntu Server hébergeant à la fois l’application Python **et** la base MariaDB
 - Depuis une VM Debian (sans interface graphique) qui héberge **Prometheus** et **Grafana**
@@ -322,25 +320,5 @@ Pour importer un dashboard :
 
 **Résumé** :  
 Avec ce setup, tu surveilles l’état de ta VM Ubuntu (app + MariaDB) depuis une VM Debian dédiée au monitoring, avec une interface web moderne, centralisée et accessible depuis n’importe quel navigateur.
-```
 
-Ce tutoriel est prêt à être utilisé pour déployer une supervision complète de ton infrastructure !
-
-<div style="text-align: center">⁂</div>
-
-[^1]: https://community.grafana.com/t/how-to-add-multiple-servers-to-single-dashboard/28050
-
-[^2]: https://www.reddit.com/r/PrometheusMonitoring/comments/7tv8cv/monitoring_two_or_more_servers_with_prometheus/
-
-[^3]: https://grafana.com/docs/grafana/latest/getting-started/get-started-grafana-prometheus/
-
-[^4]: https://community.grafana.com/t/how-to-display-stat-panels-from-multiple-prometheus-sources-in-one-dashboard/131512
-
-[^5]: https://techhut.tv/monitor-home-server-grafana-prometheus-influxdb/
-
-[^6]: https://www.scaleway.com/en/docs/tutorials/prometheus-monitoring-grafana-dashboard/
-
-[^7]: https://blog.devops.dev/host-container-monitoring-with-grafana-prometheus-d880137b7cc0
-
-[^8]: https://discuss.prometheus.io/t/one-cluster-with-prometheus-to-scrape-multiple-clusters/1365
 
