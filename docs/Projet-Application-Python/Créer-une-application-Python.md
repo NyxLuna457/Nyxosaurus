@@ -1,3 +1,5 @@
+# Créer une application Python
+
 ## Créer VM ubuntu server
 ```bash
  apt install sudo #ajouter l'utilisateur dans le groupe sudo avec “adduser user sudo” en remplaçant “user” avec votre nom d’utilisateur

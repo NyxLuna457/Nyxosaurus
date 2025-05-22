@@ -7,7 +7,7 @@ module.exports = {
   tutorialSidebar: [
     {
       type: 'category',
-      label: 'projet App python',
+      label: 'Projet Application Python',
       link: {
         type: 'generated-index',
         title: 'Projet Application Python'
@@ -22,6 +22,27 @@ module.exports = {
       ],
       collapsible: true,
       collapsed: false
-    }
+    },
+    {
+      type: 'category',
+      label: 'Tutorial Basics',
+      items: [
+        'Tutorial Basics/congratulations',
+        'Tutorial Basics/create-a-blog-post',
+        'Tutorial Basics/create-a-document',
+        'Tutorial Basics/create-a-page',
+        'Tutorial Basics/deploy-your-site',
+        'Tutorial Basics/markdown-features'
+      ]
+    },
+    {
+      type: 'category',
+      label: 'Tutorial Extras',
+      items: [
+        'Tutorial Extras/manage-docs-versions',
+        'Tutorial Extras/translate-your-site'
+      ]
+    },
+    'intro'
   ]
 };
