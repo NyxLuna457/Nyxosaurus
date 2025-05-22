@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_tutorial_wiki=self.webpackChunkmy_tutorial_wiki||[]).push([[1903],{1912:s=>{s.exports=JSON.parse('{"blogBasePath":"/Nyxosaurus/blog","blogTitle":"Blog","authorsListPath":"/Nyxosaurus/blog/authors"}')}}]);
