@@ -16,7 +16,7 @@ module.exports = {
         'Projet-Application-Python/Créer-une-application-Python',
         'Projet-Application-Python/Connecter-une-BD-à-une-application-Python',
         'Projet-Application-Python/Integrer-une-DB-a-une-page-web',
-        'Projet-Application-Python/Dns-ou-Reverse-Proxy-?',
+        'Projet-Application-Python/Dns-ou-Reverse-Proxy',
         'Projet-Application-Python/Monitoring',
         'Projet-Application-Python/Mise-en-Place-CICD'
       ],
