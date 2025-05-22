@@ -142,20 +142,6 @@ Dans ton dossier de projet Python :
 pip install flask python-dotenv mariadb
 
 ```
-
-### b. Créer un fichier `.env` à la racine du projet
-
-```
-
-DB_HOST=localhost
-DB_USER=flaskuser
-DB_PASSWORD=motdepassefort
-DB_NAME=demo
-
-```
-
-Ajoute `.env` à ton `.gitignore` pour ne pas versionner tes identifiants.
-
 ---
 
 ## 4. Écrire le code Flask pour afficher la table
