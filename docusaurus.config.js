@@ -105,8 +105,8 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Projet Application Python',
+                to: '/docs/Projet-Application-Python/Créer-une-application-Python',
               },
             ],
           },
@@ -147,6 +147,3 @@ const config = {
 };
 
 module.exports = config;
-
-
-
