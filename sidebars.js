@@ -13,12 +13,12 @@ module.exports = {
         title: 'Projet Application Python'
       },
       items: [
-        'projet-app-python/apppython',
-        'projet-app-python/dnslocal',
-        'projet-app-python/mariadbperplexity',
-        'projet-app-python/tablemariadb',
-        'projet-app-python/monitoringgrafana',
-        'projet-app-python/miseenplacecicd'
+        'Projet-Application-Python/Créer-une-application-Python',
+        'Projet-Application-Python/Connecter-une-BD-à-une-application-Python',
+        'Projet-Application-Python/Integrer-une-DB-a-une-page-web',
+        'Projet-Application-Python/Dns-ou-Reverse-Proxy-?',
+        'Projet-Application-Python/Monitoring',
+        'Projet-Application-Python/Mise-en-Place-CICD'
       ],
       collapsible: true,
       collapsed: false
