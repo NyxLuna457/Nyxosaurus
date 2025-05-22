@@ -20,29 +20,6 @@ module.exports = {
         'Projet-Application-Python/Monitoring',
         'Projet-Application-Python/Mise-en-place-CICD'
       ],
-      collapsible: true,
-      collapsed: false
-    },
-    {
-      type: 'category',
-      label: 'Tutorial Basics',
-      items: [
-        'Tutorial Basics/congratulations',
-        'Tutorial Basics/create-a-blog-post',
-        'Tutorial Basics/create-a-document',
-        'Tutorial Basics/create-a-page',
-        'Tutorial Basics/deploy-your-site',
-        'Tutorial Basics/markdown-features'
-      ]
-    },
-    {
-      type: 'category',
-      label: 'Tutorial Extras',
-      items: [
-        'Tutorial Extras/manage-docs-versions',
-        'Tutorial Extras/translate-your-site'
-      ]
-    },
-    'intro'
+    }
   ]
 };
