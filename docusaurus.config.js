@@ -64,7 +64,7 @@ const config = {
       {
         redirects: [
           {
-            from: '/',
+            from: '/Nyxosaurus/',
             to: 'Nyxosaurus/docs/category/projet-application-python',
           },
         ],
