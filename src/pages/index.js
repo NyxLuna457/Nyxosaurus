@@ -1,16 +1,11 @@
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
-
-import Heading from '@theme/Heading';
-import styles from './index.module.css';
-
 import React from 'react';
 import {Redirect} from '@docusaurus/router';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 export default function Home() {
-  return <Redirect to="/Nyxosaurus/docs/category/projet-application-python" />;
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <Redirect to={`${siteConfig.baseUrl}docs/category/projet-application-python`} />
+  );
 }
 
