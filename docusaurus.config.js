@@ -104,7 +104,7 @@ const config = {
             items: [
               {
                 label: 'Projet Application Python',
-                to: '/Nyxosaurus/docs/Projet-Application-Python/Créer-une-application-Python',
+                to: '/docs/Projet-Application-Python/Créer-une-application-Python',
               },
             ],
           },

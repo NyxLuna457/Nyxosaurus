@@ -61,8 +61,10 @@ Crée un utilisateur (remplace `utilisateur`, `mot_de_passe` et `nom_de_la_base`
 
 ```
 GRANT ALL ON nom_de_la_base.* TO 'utilisateur'@'localhost' IDENTIFIED BY 'mot_de_passe' WITH GRANT OPTION; 
-#WITH GRANT OPTION permet de donner le droit à l'utilisateur de donner les mêmes droits que celui dont il dispose à d'autres utilisateurs
 ```
+
+La condition `WITH GRANT OPTION` permet de donner le droit à l'utilisateur de donner les mêmes droits que celui dont il dispose à d'autres utilisateurs
+
 
 Recharge les privilèges pour appliquer les changements :
 

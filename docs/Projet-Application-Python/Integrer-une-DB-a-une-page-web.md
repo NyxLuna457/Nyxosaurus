@@ -198,7 +198,7 @@ if __name__ == '__main__':
 
 ### b. Fichier `templates/index.html` :
 
-```
+```html
 
 <!DOCTYPE html>
 
