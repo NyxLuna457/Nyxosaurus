@@ -63,11 +63,12 @@ plugins: [
     '@docusaurus/plugin-client-redirects',
     {
       redirects: [
-        {
-          from: '/Nyxosaurus/',
-          to: '/Nyxosaurus/docs/category/projet-application-python',
-        },
-      ],
+  {
+    from: '/Nyxosaurus/',                // ici c'est ok si tu veux rediriger depuis /Nyxosaurus/
+    to: '/docs/category/projet-application-python', // sans baseUrl
+  },
+],
+
     },
   ],
 ],
