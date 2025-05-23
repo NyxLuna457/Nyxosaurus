@@ -1,6 +1,27 @@
 # Créer une application Python
 
-## Créer VM ubuntu server
+## Résumé
+
+Ce guide t’accompagne étape par étape pour :
+- Créer une VM Ubuntu Server et installer les outils nécessaires (sudo, SSH, nginx, Python, Flask…)
+- Développer une application web simple avec Flask et une page HTML statique
+- Utiliser VS Code pour coder en local
+- Versionner ton projet avec Git et publier sur GitHub
+- Tester l’application sur ta VM
+
+---
+
+## Sommaire
+
+- [1. Créer une VM Ubuntu Server](#1-créer-une-vm-ubuntu-server)
+- [2. Utilisation de VS Code en local](#2-utilisation-de-vs-code-en-local)
+- [3. Utilisation de GitHub pour versionner et transférer les fichiers vers la VM](#3-utilisation-de-github-pour-versionner-et-transférer-les-fichiers-vers-la-vm)
+- [Félicitations, tu viens de pousser ton projet sur GitHub !](#-félicitations-tu-viens-de-pousser-ton-projet-sur-github-)
+
+---
+
+## 1. Créer une VM Ubuntu Server
+
 ```bash
  apt install sudo #ajouter l'utilisateur dans le groupe sudo avec “adduser user sudo” en remplaçant “user” avec votre nom d’utilisateur
  apt install openssh-server #afin d’administrer la VM depuis le terminal du poste local
