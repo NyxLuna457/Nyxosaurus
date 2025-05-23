@@ -15,8 +15,13 @@ Ce guide t’accompagne étape par étape pour :
 ## Sommaire
 
 - [1. Préparer la VM Ubuntu Server](#1-pr%C3%A9parer-la-vm-ubuntu-server)
+    - [1.1 Installer sudo et ajouter l’utilisateur au groupe sudo](#11-installer-sudo-et-ajouter-lutilisateur-au-groupe-sudo)
+    - [1.2 Installer OpenSSH](#12-installer-openssh)
+    - [1.3 Installer nginx](#13-installer-nginx)
+    - [1.4 Installer Python 3.12](#14-installer-python-312)
+    - [1.5 Installer pip et Flask](#15-installer-pip-et-flask)
 - [2. Développer l’application Python en local avec VS Code](#2-d%C3%A9velopper-lapplication-python-en-local-avec-vs-code)
-    - [2.1 Créer le projet et l’environnement](#21-cr%C3%A9er-le-projet-et-lenvironnement)
+    - [2.1 Créer le projet](#21-cr%C3%A9er-le-projet)
     - [2.2 Écrire le code Flask](#22-%C3%A9crire-le-code-flask)
     - [2.3 Créer le template HTML](#23-cr%C3%A9er-le-template-html)
     - [2.4 Tester l’application localement](#24-tester-lapplication-localement)
@@ -30,27 +35,64 @@ Ce guide t’accompagne étape par étape pour :
 
 ## 1. Préparer la VM Ubuntu Server
 
-Connecte-toi à ta VM et installe les outils nécessaires :
+### 1.1 Installer sudo et ajouter l’utilisateur au groupe sudo
+
+Installe sudo :
 
 ```bash
-# Installer sudo et ajouter ton utilisateur au groupe sudo
 sudo apt install sudo
-sudo adduser <user> sudo  # Remplace <user> par ton nom d'utilisateur
+```
 
-# Installer OpenSSH pour l'administration à distance
+Ajoute ton utilisateur au groupe sudo (remplace `<user>` par ton nom d'utilisateur) :
+
+```bash
+sudo adduser <user> sudo
+```
+
+
+---
+
+### 1.2 Installer OpenSSH
+
+Pour administrer la VM à distance :
+
+```bash
 sudo apt install openssh-server
+```
 
-# Installer nginx (reverse proxy / mini framework web)
+
+---
+
+### 1.3 Installer nginx
+
+Pour avoir un reverse proxy ou un mini framework web :
+
+```bash
 sudo apt install nginx
+```
 
-# Installer Python 3.12
+
+---
+
+### 1.4 Installer Python 3.12
+
+```bash
 sudo apt install python3.12
+```
 
-# Installer PHP (optionnel, seulement si besoin)
-sudo apt install php
+---
 
-# Installer pip et Flask
+### 1.5 Installer pip et Flask
+
+Installe pip :
+
+```bash
 sudo apt install python3-pip
+```
+
+Installe Flask :
+
+```bash
 pip install flask
 ```
 
@@ -59,23 +101,27 @@ pip install flask
 
 ## 2. Développer l’application Python en local avec VS Code
 
-### 2.1 Créer le projet et l’environnement
+### 2.1 Créer le projet
 
-Ouvre un terminal sur ta machine locale :
+Crée un dossier pour ton projet et place-toi dedans :
 
 ```bash
-# Créer un dossier pour le projet
 mkdir -p ~/Documents/projet-python
 cd ~/Documents/projet-python
+```
 
-# Ouvrir VS Code dans ce dossier (si installé)
+Ouvre VS Code dans ce dossier (si installé) :
+
+```bash
 code .
 ```
 
 
+---
+
 ### 2.2 Écrire le code Flask
 
-Crée un fichier `app.py` :
+Crée un fichier `app.py` et colle le code suivant :
 
 ```python
 from flask import Flask
@@ -92,9 +138,11 @@ if __name__ == '__main__':
 ```
 
 
+---
+
 ### 2.3 Créer le template HTML
 
-Crée un dossier `templates` puis le fichier HTML :
+Crée un dossier `templates` puis un fichier `index.html` à l’intérieur :
 
 ```bash
 mkdir templates
@@ -102,7 +150,7 @@ cd templates
 nano index.html
 ```
 
-Exemple de contenu pour `index.html` :
+Colle ce contenu dans `index.html` :
 
 ```html
 <html>
@@ -117,16 +165,17 @@ Exemple de contenu pour `index.html` :
 ```
 
 
+---
+
 ### 2.4 Tester l’application localement
 
-Dans le dossier du projet :
+Dans le dossier du projet, lance :
 
 ```bash
 python app.py
 ```
 
-- Ouvre [http://127.0.0.1:5000](http://127.0.0.1:5000) dans ton navigateur.
-- La page HTML doit s’afficher.
+Ouvre ensuite [http://127.0.0.1:5000](http://127.0.0.1:5000) dans ton navigateur pour voir le résultat.
 
 ---
 
@@ -134,31 +183,51 @@ python app.py
 
 ### 3.1 Initialiser Git et faire un commit
 
-Dans le dossier du projet :
+Installe git si besoin :
 
 ```bash
-# Installer git si besoin
 sudo apt install git
+```
 
-# Initialiser le dépôt Git
+Initialise le dépôt Git :
+
+```bash
 git init
+```
 
-# Ajouter tous les fichiers au suivi
+Ajoute tous les fichiers au suivi :
+
+```bash
 git add .
+```
 
-# Faire un premier commit
+Fais un premier commit :
+
+```bash
 git commit -m "Premier commit"
 ```
 
 
+---
+
 ### 3.2 Créer un dépôt GitHub et pousser le code
 
-1. Va sur [GitHub](https://github.com) et crée un nouveau repository (ne coche pas README, .gitignore, etc.).
-2. Récupère l’URL SSH de ton dépôt (ex : `git@github.com:utilisateur/nom-du-repo.git`).
-3. Dans le terminal local :
+1. Va sur [GitHub](https://github.com) et crée un nouveau repository (laisse-le vide, ne coche pas README, .gitignore, etc.).
+2. Récupère l’URL SSH de ton dépôt (exemple : `git@github.com:utilisateur/nom-du-repo.git`).
+3. Ajoute le dépôt distant :
 ```bash
 git remote add origin git@github.com:utilisateur/nom-du-repo.git
+```
+
+Change le nom de la branche principale si besoin :
+
+```bash
 git branch -M main
+```
+
+Pousse le code sur GitHub :
+
+```bash
 git push -u origin main
 ```
 
@@ -167,36 +236,54 @@ git push -u origin main
 
 ## 4. Récupérer le projet sur la VM avec git pull
 
-Sur ta VM Ubuntu Server :
+Sur ta VM Ubuntu Server, installe git si ce n’est pas déjà fait :
 
 ```bash
-# Installer git si ce n'est pas déjà fait
 sudo apt install git
+```
 
-# Cloner le dépôt la première fois (dans le dossier souhaité)
+Clone le dépôt la première fois (remplace l’URL par la tienne) :
+
+```bash
 git clone git@github.com:utilisateur/nom-du-repo.git
+```
 
-# Pour mettre à jour le projet plus tard
+Place-toi dans le dossier cloné :
+
+```bash
 cd nom-du-repo
+```
+
+Pour mettre à jour le projet plus tard :
+
+```bash
 git pull
 ```
 
-- **Astuce :** Si tu utilises HTTPS au lieu de SSH, adapte l’URL de ton dépôt.
 
 ---
 
 ## 5. Vérifier le fonctionnement sur la VM
 
-1. Installe les dépendances si besoin (par exemple Flask avec pip).
-2. Lance l’application :
+Dans le dossier du projet, installe Flask si besoin :
+
+```bash
+pip install flask
+```
+
+Lance l’application :
+
 ```bash
 python app.py
 ```
 
-3. Ouvre un navigateur et accède à :
-`http://<ip_de_ta_vm>:5000`
+Ouvre ensuite un navigateur et accède à :
 
-- Si la page ne s’affiche pas, vérifie les paramètres réseau de ta VM (NAT, bridge, pare-feu, etc.).
+```
+http://<ip_de_ta_vm>:5000
+```
+
+Si la page ne s’affiche pas, vérifie les paramètres réseau de ta VM (NAT, bridge, pare-feu, etc.).
 
 ---
 
@@ -205,7 +292,3 @@ python app.py
 - Tu as versionné et transféré ton projet avec Git et GitHub.
 - Tu sais maintenant mettre à jour ton application sur la VM avec `git pull`.
 - Tu peux continuer à développer et déployer de nouvelles fonctionnalités facilement.
-
----
-
-N’hésite pas à adapter ce guide ou à demander de l’aide pour des étapes plus avancées (déploiement, automatisation, etc.) !
