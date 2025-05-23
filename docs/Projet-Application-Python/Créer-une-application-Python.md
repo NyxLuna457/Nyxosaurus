@@ -80,7 +80,7 @@ sudo apt install python3.12
 
 ```bash
 sudo apt install python3-pip
-pip install flask
+sudo apt install python3-flask
 ```
 
 
@@ -256,7 +256,7 @@ pip install flask
 Lance l’application :
 
 ```bash
-python app.py
+python3 app.py
 ```
 
 Ouvre ensuite un navigateur et accède à :
