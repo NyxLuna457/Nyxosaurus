@@ -314,7 +314,6 @@ Pour importer un dashboard :
 - [Exporter Flask pour Prometheus](https://github.com/rycus86/prometheus_flask_exporter)
 - [Node Exporter Dashboard (ID 1860)](https://grafana.com/grafana/dashboards/1860-node-exporter-full/)
 - [MariaDB/MySQL Dashboard (ID 7362)](https://grafana.com/grafana/dashboards/7362-mysql-overview/)
-- [Exemple de configuration multi-serveurs Grafana/Prometheus][^1][^2][^3][^5][^6][^7][^8]
 
 ---
 

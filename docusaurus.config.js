@@ -13,7 +13,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://nyxluna457.github.io',
-  baseUrl: '/Nyxosaurus/',
+  baseUrl: '/',
 
   organizationName: 'NyxLuna457',
   projectName: 'Nyxosaurus',
@@ -64,7 +64,7 @@ const config = {
       {
         redirects: [
           {
-            from: '/Nyxosaurus/',
+            from: '/',
             to: 'Nyxosaurus/docs/category/projet-application-python',
           },
         ],

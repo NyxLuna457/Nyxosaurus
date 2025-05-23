@@ -157,7 +157,7 @@ pip install flask python-dotenv mariadb
 
 ```Python
 import os
-from flask import Flask, render_template
+from flask imnport Flask, render_template
 from dotenv import load_dotenv
 import mariadb
 
