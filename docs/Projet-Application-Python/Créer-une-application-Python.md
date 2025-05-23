@@ -6,9 +6,8 @@ Ce guide t’accompagne étape par étape pour :
 
 - Créer une VM Ubuntu Server et installer les outils nécessaires (sudo, SSH, nginx, Python, Flask…)
 - Développer une application web simple avec Flask et une page HTML statique
-- Utiliser VS Code pour coder en local
 - Versionner ton projet avec Git et publier sur GitHub
-- Récupérer et exécuter ton projet sur la VM avec `git pull`
+- Générer une clé SSH sur ta VM, l’ajouter à GitHub, et cloner/mettre à jour ton projet
 
 ---
 
@@ -28,8 +27,12 @@ Ce guide t’accompagne étape par étape pour :
 - [3. Versionner et publier le projet sur GitHub](#3-versionner-et-publier-le-projet-sur-github)
     - [3.1 Initialiser Git et faire un commit](#31-initialiser-git-et-faire-un-commit)
     - [3.2 Créer un dépôt GitHub et pousser le code](#32-cr%C3%A9er-un-d%C3%A9p%C3%B4t-github-et-pousser-le-code)
-- [4. Récupérer le projet sur la VM avec git pull](#4-r%C3%A9cup%C3%A9rer-le-projet-sur-la-vm-avec-git-pull)
-- [5. Vérifier le fonctionnement sur la VM](#5-v%C3%A9rifier-le-fonctionnement-sur-la-vm)
+- [4. Générer une clé SSH sur la VM et l’ajouter à GitHub](#4-g%C3%A9n%C3%A9rer-une-cl%C3%A9-ssh-sur-la-vm-et-lajouter-%C3%A0-github)
+    - [4.1 Générer la clé SSH](#41-g%C3%A9n%C3%A9rer-la-cl%C3%A9-ssh)
+    - [4.2 Ajouter la clé publique à GitHub](#42-ajouter-la-cl%C3%A9-publique-%C3%A0-github)
+    - [4.3 Vérifier la connexion SSH avec GitHub](#43-v%C3%A9rifier-la-connexion-ssh-avec-github)
+- [5. Cloner le projet sur la VM et le mettre à jour avec git pull](#5-cloner-le-projet-sur-la-vm-et-le-mettre-%C3%A0-jour-avec-git-pull)
+- [6. Vérifier le fonctionnement sur la VM](#6-v%C3%A9rifier-le-fonctionnement-sur-la-vm)
 
 ---
 
@@ -37,24 +40,16 @@ Ce guide t’accompagne étape par étape pour :
 
 ### 1.1 Installer sudo et ajouter l’utilisateur au groupe sudo
 
-Installe sudo :
-
 ```bash
 sudo apt install sudo
-```
-
-Ajoute ton utilisateur au groupe sudo (remplace `<user>` par ton nom d'utilisateur) :
-
-```bash
 sudo adduser <user> sudo
 ```
 
+Remplace `<user>` par ton nom d'utilisateur.
 
 ---
 
 ### 1.2 Installer OpenSSH
-
-Pour administrer la VM à distance :
 
 ```bash
 sudo apt install openssh-server
@@ -64,8 +59,6 @@ sudo apt install openssh-server
 ---
 
 ### 1.3 Installer nginx
-
-Pour avoir un reverse proxy ou un mini framework web :
 
 ```bash
 sudo apt install nginx
@@ -80,19 +73,13 @@ sudo apt install nginx
 sudo apt install python3.12
 ```
 
+
 ---
 
 ### 1.5 Installer pip et Flask
 
-Installe pip :
-
 ```bash
 sudo apt install python3-pip
-```
-
-Installe Flask :
-
-```bash
 pip install flask
 ```
 
@@ -103,16 +90,9 @@ pip install flask
 
 ### 2.1 Créer le projet
 
-Crée un dossier pour ton projet et place-toi dedans :
-
 ```bash
 mkdir -p ~/Documents/projet-python
 cd ~/Documents/projet-python
-```
-
-Ouvre VS Code dans ce dossier (si installé) :
-
-```bash
 code .
 ```
 
@@ -142,8 +122,6 @@ if __name__ == '__main__':
 
 ### 2.3 Créer le template HTML
 
-Crée un dossier `templates` puis un fichier `index.html` à l’intérieur :
-
 ```bash
 mkdir templates
 cd templates
@@ -169,13 +147,11 @@ Colle ce contenu dans `index.html` :
 
 ### 2.4 Tester l’application localement
 
-Dans le dossier du projet, lance :
-
 ```bash
 python app.py
 ```
 
-Ouvre ensuite [http://127.0.0.1:5000](http://127.0.0.1:5000) dans ton navigateur pour voir le résultat.
+Ouvre [http://127.0.0.1:5000](http://127.0.0.1:5000) dans ton navigateur.
 
 ---
 
@@ -183,27 +159,10 @@ Ouvre ensuite [http://127.0.0.1:5000](http://127.0.0.1:5000) dans ton navigateur
 
 ### 3.1 Initialiser Git et faire un commit
 
-Installe git si besoin :
-
 ```bash
 sudo apt install git
-```
-
-Initialise le dépôt Git :
-
-```bash
 git init
-```
-
-Ajoute tous les fichiers au suivi :
-
-```bash
 git add .
-```
-
-Fais un premier commit :
-
-```bash
 git commit -m "Premier commit"
 ```
 
@@ -214,43 +173,66 @@ git commit -m "Premier commit"
 
 1. Va sur [GitHub](https://github.com) et crée un nouveau repository (laisse-le vide, ne coche pas README, .gitignore, etc.).
 2. Récupère l’URL SSH de ton dépôt (exemple : `git@github.com:utilisateur/nom-du-repo.git`).
-3. Ajoute le dépôt distant :
+3. Ajoute le dépôt distant et pousse le code :
 ```bash
 git remote add origin git@github.com:utilisateur/nom-du-repo.git
-```
-
-Change le nom de la branche principale si besoin :
-
-```bash
 git branch -M main
-```
-
-Pousse le code sur GitHub :
-
-```bash
 git push -u origin main
 ```
 
 
 ---
 
-## 4. Récupérer le projet sur la VM avec git pull
+## 4. Générer une clé SSH sur la VM et l’ajouter à GitHub
 
-Sur ta VM Ubuntu Server, installe git si ce n’est pas déjà fait :
+### 4.1 Générer la clé SSH
+
+Sur ta VM Ubuntu, exécute :
 
 ```bash
-sudo apt install git
+ssh-keygen -t ed25519 -C "ton_email@example.com"
 ```
 
-Clone le dépôt la première fois (remplace l’URL par la tienne) :
+Appuie sur **Entrée** à chaque question pour accepter les valeurs par défaut.
+
+---
+
+### 4.2 Ajouter la clé publique à GitHub
+
+Affiche la clé publique générée :
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+**Copie** tout le contenu affiché.
+
+Sur GitHub :
+
+- Va dans **Settings > SSH and GPG keys > New SSH key**
+- Colle la clé dans le champ prévu, donne-lui un nom, puis valide.
+
+---
+
+### 4.3 Vérifier la connexion SSH avec GitHub
+
+Teste la connexion :
+
+```bash
+ssh -T git@github.com
+```
+
+Tu dois voir un message du type :
+`Hi <ton_username>! You've successfully authenticated, but GitHub does not provide shell access.`
+
+---
+
+## 5. Cloner le projet sur la VM et le mettre à jour avec git pull
+
+Place-toi dans le dossier où tu veux cloner ton projet, puis :
 
 ```bash
 git clone git@github.com:utilisateur/nom-du-repo.git
-```
-
-Place-toi dans le dossier cloné :
-
-```bash
 cd nom-du-repo
 ```
 
@@ -263,9 +245,9 @@ git pull
 
 ---
 
-## 5. Vérifier le fonctionnement sur la VM
+## 6. Vérifier le fonctionnement sur la VM
 
-Dans le dossier du projet, installe Flask si besoin :
+Installe Flask si besoin :
 
 ```bash
 pip install flask
@@ -283,12 +265,12 @@ Ouvre ensuite un navigateur et accède à :
 http://<ip_de_ta_vm>:5000
 ```
 
-Si la page ne s’affiche pas, vérifie les paramètres réseau de ta VM (NAT, bridge, pare-feu, etc.).
 
 ---
 
 ## 🎉 Félicitations, ton application Python est en ligne !
 
 - Tu as versionné et transféré ton projet avec Git et GitHub.
+- Tu as sécurisé l’accès avec une clé SSH.
 - Tu sais maintenant mettre à jour ton application sur la VM avec `git pull`.
-- Tu peux continuer à développer et déployer de nouvelles fonctionnalités facilement.
+
