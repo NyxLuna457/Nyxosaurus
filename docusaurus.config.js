@@ -65,7 +65,7 @@ const config = {
         redirects: [
           {
             from: '/',
-            to: '/docs/category/projet-application-python',
+            to: 'Nyxosaurus/docs/category/projet-application-python',
           },
         ],
       },
@@ -104,7 +104,7 @@ const config = {
             items: [
               {
                 label: 'Projet Application Python',
-                to: '/docs/Projet-Application-Python/Créer-une-application-Python',
+                to: '/Nyxosaurus/docs/Projet-Application-Python/Créer-une-application-Python',
               },
             ],
           },
