@@ -1,11 +1,12 @@
-# Créer une application Python
+# Créer une application Python et la déployer avec pyenv, GitHub et SSH
 
 ## Résumé
 
 Ce guide t’accompagne étape par étape pour :
 
-- Créer une VM Ubuntu Server et installer les outils nécessaires (sudo, SSH, nginx, Python, Flask…)
-- Développer une application web simple avec Flask et une page HTML statique
+- Installer et configurer pyenv pour gérer ta version de Python sur la VM Ubuntu
+- Installer les outils nécessaires (sudo, SSH, nginx, Flask…)
+- Développer une application web simple avec Flask
 - Versionner ton projet avec Git et publier sur GitHub
 - Générer une clé SSH sur ta VM, l’ajouter à GitHub, et cloner/mettre à jour ton projet
 
@@ -17,8 +18,8 @@ Ce guide t’accompagne étape par étape pour :
     - [1.1 Installer sudo et ajouter l’utilisateur au groupe sudo](#11-installer-sudo-et-ajouter-lutilisateur-au-groupe-sudo)
     - [1.2 Installer OpenSSH](#12-installer-openssh)
     - [1.3 Installer nginx](#13-installer-nginx)
-    - [1.4 Installer Python 3.12](#14-installer-python-312)
-    - [1.5 Installer pip et Flask](#15-installer-pip-et-flask)
+    - [1.4 Installer pyenv et Python](#14-installer-pyenv-et-python)
+    - [1.5 Installer pip et Flask avec pyenv](#15-installer-pip-et-flask-avec-pyenv)
 - [2. Développer l’application Python en local avec VS Code](#2-d%C3%A9velopper-lapplication-python-en-local-avec-vs-code)
     - [2.1 Créer le projet](#21-cr%C3%A9er-le-projet)
     - [2.2 Écrire le code Flask](#22-%C3%A9crire-le-code-flask)
@@ -41,6 +42,7 @@ Ce guide t’accompagne étape par étape pour :
 ### 1.1 Installer sudo et ajouter l’utilisateur au groupe sudo
 
 ```bash
+sudo apt update
 sudo apt install sudo
 sudo adduser <user> sudo
 ```
@@ -67,20 +69,67 @@ sudo apt install nginx
 
 ---
 
-### 1.4 Installer Python 3.12
+### 1.4 Installer pyenv et Python
+
+#### a. Installer les dépendances pour pyenv
 
 ```bash
-sudo apt install python3.12
+sudo apt install -y make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev git
+```
+
+
+#### b. Installer pyenv
+
+```bash
+curl https://pyenv.run | bash
+```
+
+Ajoute pyenv à ton shell (bash ou zsh) :
+
+```bash
+echo -e '\n# Pyenv setup' >> ~/.bashrc
+echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init --path)"' >> ~/.b
+---
+
+## 🎉 Félicitations, ton application Python est en ligne !
+
+- Tu utilises pyenv pour gérer proprement ta version de Python.
+- Tu as versionné et transféré ton projet avec Git et GitHub.
+- Tu sais maintenant mettre à jour ton application sur la VM avec `git pull`.
+ashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+
+#### c. Installer la version de Python souhaitée
+
+```bash
+pyenv install 3.12.3
+pyenv global 3.12.3
+```
+
+Vérifie que la bonne version est utilisée :
+
+```bash
+python --version
+pip --version
 ```
 
 
 ---
 
-### 1.5 Installer pip et Flask
+### 1.5 Installer pip et Flask avec pyenv
+
+Avec pyenv, `pip` est lié à la version de Python sélectionnée :
 
 ```bash
-sudo apt install python3-pip
-sudo apt install python3-flask
+pip install --upgrade pip
+pip install flask
 ```
 
 
@@ -187,8 +236,6 @@ git push -u origin main
 
 ### 4.1 Générer la clé SSH
 
-Sur ta VM Ubuntu, exécute :
-
 ```bash
 ssh-keygen -t ed25519 -C "ton_email@example.com"
 ```
@@ -199,24 +246,18 @@ Appuie sur **Entrée** à chaque question pour accepter les valeurs par défaut.
 
 ### 4.2 Ajouter la clé publique à GitHub
 
-Affiche la clé publique générée :
-
 ```bash
 cat ~/.ssh/id_ed25519.pub
 ```
 
-**Copie** tout le contenu affiché.
+Copie tout le contenu affiché, puis :
 
-Sur GitHub :
-
-- Va dans **Settings > SSH and GPG keys > New SSH key**
-- Colle la clé dans le champ prévu, donne-lui un nom, puis valide.
+- Va dans **Settings > SSH and GPG keys > New SSH key** sur GitHub
+- Colle la clé, donne-lui un nom, valide.
 
 ---
 
 ### 4.3 Vérifier la connexion SSH avec GitHub
-
-Teste la connexion :
 
 ```bash
 ssh -T git@github.com
@@ -228,8 +269,6 @@ Tu dois voir un message du type :
 ---
 
 ## 5. Cloner le projet sur la VM et le mettre à jour avec git pull
-
-Place-toi dans le dossier où tu veux cloner ton projet, puis :
 
 ```bash
 git clone git@github.com:utilisateur/nom-du-repo.git
@@ -247,7 +286,7 @@ git pull
 
 ## 6. Vérifier le fonctionnement sur la VM
 
-Installe Flask si besoin :
+Installe Flask si besoin (avec le pip de pyenv) :
 
 ```bash
 pip install flask
@@ -256,7 +295,7 @@ pip install flask
 Lance l’application :
 
 ```bash
-python3 app.py
+python app.py
 ```
 
 Ouvre ensuite un navigateur et accède à :
@@ -270,7 +309,6 @@ http://<ip_de_ta_vm>:5000
 
 ## 🎉 Félicitations, ton application Python est en ligne !
 
+- Tu utilises pyenv pour gérer proprement ta version de Python.
 - Tu as versionné et transféré ton projet avec Git et GitHub.
-- Tu as sécurisé l’accès avec une clé SSH.
 - Tu sais maintenant mettre à jour ton application sur la VM avec `git pull`.
-
