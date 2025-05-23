@@ -13,7 +13,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://nyxluna457.github.io',
-  baseUrl: '/',
+  baseUrl: '/Nyxosaurus/',
 
   organizationName: 'NyxLuna457',
   projectName: 'Nyxosaurus',
@@ -58,19 +58,20 @@ const config = {
     ],
   ],
 
-  plugins: [
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          {
-            from: '/Nyxosaurus/',
-            to: 'Nyxosaurus/docs/category/projet-application-python',
-          },
-        ],
-      },
-    ],
+plugins: [
+  [
+    '@docusaurus/plugin-client-redirects',
+    {
+      redirects: [
+        {
+          from: '/Nyxosaurus/',
+          to: '/Nyxosaurus/docs/category/projet-application-python',
+        },
+      ],
+    },
   ],
+],
+
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
