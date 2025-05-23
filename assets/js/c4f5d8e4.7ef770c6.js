@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_tutorial_wiki=self.webpackChunkmy_tutorial_wiki||[]).push([[634],{9179:(t,i,e)=>{e.r(i),e.d(i,{default:()=>s});e(6540);var o=e(6347),r=e(797),a=e(4848);function s(){const{siteConfig:t}=(0,r.A)();return(0,a.jsx)(o.rd,{to:`${t.baseUrl}docs/category/projet-application-python`})}}}]);

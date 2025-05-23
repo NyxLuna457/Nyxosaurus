@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_tutorial_wiki=self.webpackChunkmy_tutorial_wiki||[]).push([[617],{9321:(t,u,e)=>{e.r(u),e.d(u,{default:()=>i});var s=e(6540),a=e(6347);function i(){const t=(0,a.W6)();return(0,s.useEffect)((()=>{t.push("/Nyxosaurus/docs/category/projet-application-python")}),[t]),null}}}]);
