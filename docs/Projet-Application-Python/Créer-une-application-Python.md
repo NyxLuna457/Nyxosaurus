@@ -91,15 +91,7 @@ Ajoute pyenv à ton shell (bash ou zsh) :
 ```bash
 echo -e '\n# Pyenv setup' >> ~/.bashrc
 echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(pyenv init --path)"' >> ~/.b
----
-
-## 🎉 Félicitations, ton application Python est en ligne !
-
-- Tu utilises pyenv pour gérer proprement ta version de Python.
-- Tu as versionné et transféré ton projet avec Git et GitHub.
-- Tu sais maintenant mettre à jour ton application sur la VM avec `git pull`.
-ashrc
+echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 source ~/.bashrc
