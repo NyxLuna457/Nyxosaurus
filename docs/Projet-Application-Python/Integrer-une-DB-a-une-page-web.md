@@ -216,39 +216,6 @@ if __name__ == '__main__':
 
 ---
 
-### b. Fichier `templates/index.html` :
-
-```html
-
-<!DOCTYPE html>
-
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des personnes</title>
-</head>
-<body>
-    <h1>Table Personel</h1>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-        </tr>
-        {% for person in Personel %}
-        <tr>
-            <td>{{ person }}</td>
-            <td>{{ person }}</td>
-            <td>{{ person }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-</html>
-```
-
----
-
 ## 5. Lancer l’application
 
 Dans le terminal :
@@ -263,7 +230,7 @@ Puis ouvre ton navigateur à l’adresse :
 
 ```
 
-http://<ip_de_ta_vm>:5000
+http://<ip_de_ta_vm>:5000/personnes
 
 ```
 
