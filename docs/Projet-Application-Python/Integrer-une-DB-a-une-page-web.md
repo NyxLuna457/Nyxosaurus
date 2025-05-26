@@ -93,26 +93,26 @@ Entre le mot de passe défini plus haut.
 
 ### b. Créer une table
 
-Par exemple, une table `people` :
+Par exemple, une table `Personel` :
 
 ```
 
-CREATE TABLE people (
+CREATE TABLE Personel (
 id INT PRIMARY KEY AUTO_INCREMENT,
-firstname VARCHAR(50) NOT NULL,
-lastname VARCHAR(50) NOT NULL
+Prénoms VARCHAR(50) NOT NULL,
+Nom VARCHAR(50) NOT NULL
 );
 
 ```
 
 - `id` est une clé primaire auto-incrémentée.
-- `firstname` et `lastname` sont des champs texte.
+- `Prénoms` et `Nom` sont des champs texte.
 
 ### c. Insérer des données dans la table
 
 ```
 
-INSERT INTO people (firstname, lastname) VALUES
+INSERT INTO Personel (Prénoms, Nom) VALUES
 ('Alice', 'Martin'),
 ('Bob', 'Durand'),
 ('Claire', 'Lefevre');
@@ -123,7 +123,7 @@ INSERT INTO people (firstname, lastname) VALUES
 
 ```
 
-SELECT * FROM people;
+SELECT * FROM Personel;
 
 ```
 
@@ -144,7 +144,7 @@ EXIT;
 Dans ton dossier de projet Python :
 
 ```
-
+sudo apt install libmariadb-dev
 pip install flask python-dotenv mariadb
 
 ```
@@ -157,7 +157,7 @@ pip install flask python-dotenv mariadb
 
 ```Python
 import os
-from flask imnport Flask, render_template
+from flask import Flask, render_template
 from dotenv import load_dotenv
 import mariadb
 
@@ -173,21 +173,41 @@ def get_db_connection():
         password=os.getenv('DB_PASSWORD'),
         database=os.getenv('DB_NAME')
     )
+db_config = {
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME')
+}
 
 @app.route('/')
-def index():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    # On récupère les données de la table people
-    cur.execute("SELECT id, firstname, lastname FROM people")
-    # On transforme les résultats en liste de dictionnaires pour un accès plus lisible dans le template
-    people = [
-        {"id": row[0], "firstname": row[1], "lastname": row[2]}
-        for row in cur.fetchall()
-    ]
-    cur.close()
-    conn.close()
-    return render_template('index.html', people=people)
+def afficher_personnes():
+    try:
+        conn = mariadb.connect(**db_config)
+        cur = conn.cursor()
+        cur.execute("SELECT id, Prénoms, Nom FROM Personel;")
+        personnes = cur.fetchall()
+        conn.close()
+    except mariadb.Error as e:
+        return f"<h1>Erreur de connexion à la base de données :</h1><pre>{e}</pre>"
+
+    # Template HTML simple
+    html = '''
+    <h1>Liste du Personel</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th><th>Nom</th><th>Prénom</th>
+        </tr>
+        {% for p in personnes %}
+        <tr>
+            <td>{{ p[0] }}</td>
+            <td>{{ p[1] }}</td>
+            <td>{{ p[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    '''
+    return render_template_string(html, personnes=personnes)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
@@ -208,14 +228,14 @@ if __name__ == '__main__':
     <title>Liste des personnes</title>
 </head>
 <body>
-    <h1>Table people</h1>
+    <h1>Table Personel</h1>
     <table border="1">
         <tr>
             <th>ID</th>
             <th>Prénom</th>
             <th>Nom</th>
         </tr>
-        {% for person in people %}
+        {% for person in Personel %}
         <tr>
             <td>{{ person }}</td>
             <td>{{ person }}</td>
