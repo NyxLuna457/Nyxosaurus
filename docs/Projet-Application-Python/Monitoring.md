@@ -1,9 +1,9 @@
-# Monitoring complet d'une application Python et MariaDB via Grafana/Prometheus
+# Monitoring via Grafana/Prometheus
 
 Ce guide détaille comment monitorer :
 
-- Une VM Ubuntu Server hébergeant à la fois l’application Python et la base MariaDB
-- Depuis une VM Debian (vierge, sauf openssh-server) qui héberge **Prometheus** et **Grafana**
+- Une VM Ubuntu Server hébergeant à la fois l’application Python **et** la base MariaDB
+- Depuis une VM Debian (sans interface graphique, vierge sauf openssh-server) qui héberge **Prometheus** et **Grafana**
 
 > **À chaque fois que tu vois une adresse IP (exemple : `192.168.1.100` ou `192.168.1.90`), ADAPTE-LA à ton propre réseau !**
 
@@ -11,31 +11,25 @@ Ce guide détaille comment monitorer :
 
 ## Sommaire
 
-1. [Résumé](#r%C3%A9sum%C3%A9)
-2. [Schéma de l’architecture](#sch%C3%A9ma-de-larchitecture)
-3. [Sur la VM Ubuntu (App + MariaDB)](#sur-la-vm-ubuntu-app--mariadb)
+1. [Schéma de l’architecture](#1-sch%C3%A9ma-de-larchitecture)
+2. [Sur la VM Ubuntu (App + MariaDB)](#2-sur-la-vm-ubuntu-app--mariadb)
     - a. Installer Node Exporter (monitoring système)
     - b. Installer mysqld_exporter (monitoring MariaDB)
     - c. Exposer les métriques de l’application Python
-4. [Sur la VM Debian (Monitoring)](#sur-la-vm-debian-monitoring)
+3. [Sur la VM Debian (Monitoring)](#3-sur-la-vm-debian-monitoring)
     - a. Installer Prometheus
     - b. Configurer Prometheus pour scraper la VM Ubuntu
     - c. Installer Grafana
     - d. Connecter Grafana à Prometheus
-5. [Créer et importer des dashboards Grafana](#cr%C3%A9er-et-importer-des-dashboards-grafana)
-6. [Ressources](#ressources)
+4. [Créer et importer des dashboards Grafana](#4-cr%C3%A9er-et-importer-des-dashboards-grafana)
+    - a. Dashboard système
+    - b. Dashboard MariaDB
+    - c. Dashboard pour l’application Python (exemple détaillé)
+5. [Ressources](#5-ressources)
 
 ---
 
-## Résumé
-
-- **VM Ubuntu** : héberge MariaDB, ton application Python, node_exporter et mysqld_exporter
-- **VM Debian** : installation de Prometheus et Grafana, configuration pour superviser la VM Ubuntu
-- **Monitoring** : état système, état MariaDB, état et statistiques de l’application Python (uptime, requêtes, etc.)
-
----
-
-## Schéma de l’architecture
+## 1. Schéma de l’architecture
 
 ```
 [ VM Ubuntu ]
@@ -56,14 +50,14 @@ Ce guide détaille comment monitorer :
 
 ---
 
-## Sur la VM Ubuntu (App + MariaDB)
+## 2. Sur la VM Ubuntu (App + MariaDB)
 
 ### a. Installer Node Exporter (monitoring système)
 
 ```bash
 cd /opt
-wget https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz
-tar xvf node_exporter-1.8.1.linux-amd64.tar.gz
+sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz
+sudo tar xvf node_exporter-1.8.1.linux-amd64.tar.gz
 sudo mv node_exporter-1.8.1.linux-amd64/node_exporter /usr/local/bin/
 ```
 
@@ -96,7 +90,7 @@ sudo systemctl enable node_exporter
 sudo systemctl start node_exporter
 ```
 
-Vérifie sur : `http://192.168.1.100:9100/metrics`
+Vérifie sur : `http://<IP_VM_UBUNTU>:9100/metrics`
 
 ---
 
@@ -176,7 +170,7 @@ sudo systemctl enable mysqld_exporter
 sudo systemctl start mysqld_exporter
 ```
 
-Vérifie sur : `http://192.168.1.100:9104/metrics`
+Vérifie sur : `http://<IP_VM_UBUNTU>:9104/metrics`
 
 ---
 
@@ -206,11 +200,11 @@ if __name__ == '__main__':
 ```
 
 Les métriques seront disponibles sur :
-`http://192.168.1.100:5000/metrics`
+`http://<IP_VM_UBUNTU>:5000/metrics`
 
 ---
 
-## Sur la VM Debian (Monitoring)
+## 3. Sur la VM Debian (Monitoring)
 
 ### a. Installer Prometheus
 
@@ -231,14 +225,14 @@ Prometheus écoute sur le port 9090.
 scrape_configs:
   - job_name: 'node_exporter'
     static_configs:
-      - targets: ['192.168.1.100:9100']
+      - targets: ['<IP_VM_UBUNTU>:9100']
   - job_name: 'mysqld_exporter'
     static_configs:
-      - targets: ['192.168.1.100:9104']
+      - targets: ['<IP_VM_UBUNTU>:9104']
   - job_name: 'python_app'
     metrics_path: /metrics
     static_configs:
-      - targets: ['192.168.1.100:5000']
+      - targets: ['<IP_VM_UBUNTU>:5000']
 ```
 
 Redémarre Prometheus :
@@ -263,7 +257,7 @@ sudo systemctl start grafana-server
 ```
 
 Grafana est accessible sur :
-`http://192.168.1.90:3000`
+`http://<IP_VM_DEBIAN>:3000`
 Identifiants par défaut : `admin` / `admin`
 
 ---
@@ -273,30 +267,96 @@ Identifiants par défaut : `admin` / `admin`
 1. Connecte-toi à Grafana
 2. Va dans **Configuration > Data Sources > Add data source**
 3. Choisis **Prometheus**
-4. Renseigne l’URL : `http://localhost:9090`
+4. Renseigne l’URL : `http://localhost:9090` (si Grafana et Prometheus sont sur la même VM Debian)
 5. Clique sur **Save \& Test**
 
 ---
 
-## Créer et importer des dashboards Grafana
+## 4. Créer et importer des dashboards Grafana
 
-- **Pour le monitoring système (Node Exporter)** :
-    - Dashboard ID : **1860** ([Node Exporter Full](https://grafana.com/grafana/dashboards/1860-node-exporter-full/))
-- **Pour MariaDB/MySQL** :
-    - Dashboard ID : **7362** ([MySQL Overview](https://grafana.com/grafana/dashboards/7362-mysql-overview/))
-- **Pour l’application Python** :
-    - Crée tes propres graphes à partir des métriques exposées par `prometheus_flask_exporter` (ex : requêtes, uptime, erreurs…)
+### a. Dashboard système (Node Exporter)
 
-Pour importer un dashboard :
+- Dashboard ID : **1860** ([Node Exporter Full](https://grafana.com/grafana/dashboards/1860-node-exporter-full/))
 
-1. Va dans **Dashboard > Import**
-2. Entre l’ID du dashboard
-3. Sélectionne ta source de données Prometheus
-4. Clique sur **Import**
+
+### b. Dashboard MariaDB/MySQL
+
+- Dashboard ID : **7362** ([MySQL Overview](https://grafana.com/grafana/dashboards/7362-mysql-overview/))
+
+
+### c. Dashboard pour l’application Python (exemple détaillé)
+
+#### Exemple de panels pour ton dashboard Python
+
+1. **Nombre total de requêtes HTTP**
+    - **Titre** : Total HTTP Requests
+    - **Query** :
+
+```
+sum(flask_http_request_total)
+```
+
+    - **Type** : Stat
+2. **Nombre de requêtes par endpoint**
+    - **Titre** : Requests per Endpoint
+    - **Query** :
+
+```
+sum by (endpoint) (flask_http_request_total)
+```
+
+    - **Type** : Table ou Bar Chart
+3. **Temps moyen de réponse**
+    - **Titre** : Average Response Time (s)
+    - **Query** :
+
+```
+sum(rate(flask_http_request_duration_seconds_sum[1m])) / sum(rate(flask_http_request_duration_seconds_count[1m]))
+```
+
+    - **Type** : Stat
+4. **Uptime de l’application**
+    - **Titre** : Application Uptime (heures)
+    - **Query** :
+
+```
+(time() - process_start_time_seconds{job="python_app"}) / 3600
+```
+
+    - **Type** : Stat
+5. **Utilisation mémoire**
+    - **Titre** : RAM utilisée (MB)
+    - **Query** :
+
+```
+process_resident_memory_bytes{job="python_app"} / 1024 / 1024
+```
+
+    - **Type** : Stat
+6. **Utilisation CPU**
+    - **Titre** : CPU Time (s)
+    - **Query** :
+
+```
+process_cpu_seconds_total{job="python_app"}
+```
+
+    - **Type** : Stat
+
+#### Comment créer ce dashboard dans Grafana
+
+1. Va dans **+ > Dashboard > Add new panel**
+2. Pour chaque panel :
+    - Colle la requête (query) Prometheus correspondante
+    - Choisis le type de visualisation (Stat, Table, Bar Chart…)
+    - Donne un titre explicite
+    - Clique sur **Apply**
+3. Organise tes panels comme tu le souhaites
+4. Clique sur **Save dashboard** pour enregistrer
 
 ---
 
-## Ressources
+## 5. Ressources
 
 - [Documentation officielle Prometheus](https://prometheus.io/docs/)
 - [Documentation officielle Grafana](https://grafana.com/docs/)
@@ -306,4 +366,6 @@ Pour importer un dashboard :
 
 ---
 
-**Avec ce setup, tu supervises l’état de ta VM Ubuntu (app + MariaDB) et de ton application Python depuis une VM Debian dédiée au monitoring, avec une interface web moderne, centralisée et accessible depuis n’importe quel navigateur.**
+**Résumé** :
+Avec ce setup, tu surveilles l’état de ta VM Ubuntu (app + MariaDB) et de ton application Python depuis une VM Debian dédiée au monitoring, avec une interface web moderne, centralisée et accessible depuis n’importe quel navigateur.
+Tu as maintenant un exemple précis pour créer un dashboard Grafana dédié à ton application Python, incluant uptime, requêtes, temps de réponse, RAM, CPU, etc.
