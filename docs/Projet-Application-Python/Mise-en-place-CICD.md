@@ -116,13 +116,13 @@ ssh-keygen -t ed25519 -C "github-deploy"
 
 - Appuie sur **Entrée** à chaque question pour accepter les valeurs par défaut (le fichier sera créé dans `~/.ssh/id_ed25519`).
 - Tu obtiens deux fichiers :
-    - **Clé privée** : `~/.ssh/id_ed25519` (à garder secrète)
+    - **Clé privée** : `~/.ssh/id_ed25519` (à rentrer dans les secrets github sous le titre SSH_PRIVATE_KEY)
     - **Clé publique** : `~/.ssh/id_ed25519.pub` (à copier sur la VM)
 
 
 #### 2. Copier la clé publique sur la VM Ubuntu
 
-Sur ta machine locale :
+Sur ta machine locale (remplace ubuntu par ton nom d'utilisateur):
 
 ```bash
 ssh-copy-id -i ~/.ssh/id_ed25519.pub ubuntu@<IP_TAILSCALE_VM>
